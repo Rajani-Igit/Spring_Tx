@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+<property name="url" value="jdbc:mysql://localhost:3306/test"/>
+<property name="username" value="root"/>
+<property name="password" value="root"/>
+</bean>
+<bean id="npJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+<constructor-arg ref="datasource"/>
+</bean>
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ <property name="dataSource" ref="datasource"></property>
+</bean>
+<bean id="jobdao" class="com.transaction.dao.JobDao">
+<property name="npjdbctemplate" ref="npJdbcTemplate"></property>
+</bean>
+<bean id="companydao" class="com.transaction.dao.CompanyDao">
+<property name="npjdbctemplate" ref="npJdbcTemplate"/>
+</bean>
+</beans>
